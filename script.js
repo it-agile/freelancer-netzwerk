@@ -80,35 +80,38 @@ if (contactForm) {
         submitButton.disabled = true;
 
         try {
-            console.log('Sending data to Google Script:', data);
+            console.log('📤 Sending data to Google Script:', data);
+            console.log('📍 URL:', GOOGLE_SCRIPT_URL);
 
             // Send data to Google Apps Script
             const response = await fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
+                mode: 'no-cors', // Required for Google Apps Script
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(data),
-                redirect: 'follow'
+                body: JSON.stringify(data)
             });
 
+            console.log('✅ Response received:', response);
+            console.log('Response type:', response.type);
             console.log('Response status:', response.status);
-            console.log('Response:', response);
 
-            // With mode: 'no-cors', we can't read the response
-            // So we assume success if no error was thrown
-            if (response.ok || response.type === 'opaque') {
-                // Show success message
-                showSuccessMessage();
-                // Reset form
-                contactForm.reset();
-            } else {
-                throw new Error('Server returned error status');
-            }
+            // With mode: 'no-cors', response.type will be 'opaque'
+            // We can't read the actual response, but if no error was thrown, it worked
+            console.log('✅ Form submitted successfully (no-cors mode)');
+
+            // Show success message
+            showSuccessMessage();
+
+            // Reset form
+            contactForm.reset();
 
         } catch (error) {
-            console.error('Error submitting form:', error);
-            console.error('Error details:', error.message);
+            console.error('❌ Error submitting form:', error);
+            console.error('Error name:', error.name);
+            console.error('Error message:', error.message);
+            console.error('Error stack:', error.stack);
             showErrorMessage();
         } finally {
             // Reset button state
