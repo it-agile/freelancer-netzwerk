@@ -61,7 +61,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // ===================================
 
 // WICHTIG: Ersetze diese URL mit deiner Google Apps Script Web-App URL
-const GOOGLE_SCRIPT_URL = 'DEINE_GOOGLE_SCRIPT_URL_HIER_EINFÜGEN';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzb79XrMjzR42_GZWd7GUQ7kWL-XbgpafX2HM2egchQVvBWEpJ2lMml5N3mDJjeMvA/exec';
 
 const contactForm = document.getElementById('contactForm');
 
