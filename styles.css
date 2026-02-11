@@ -58,6 +58,74 @@ body {
 /* Removed grain texture for cleaner look */
 
 /* ===================================
+   Header
+   =================================== */
+
+.site-header {
+    background: var(--color-bg-alt);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--spacing-md) 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.98);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: opacity var(--transition-fast);
+}
+
+.header-logo:hover {
+    opacity: 0.7;
+}
+
+.header-logo img {
+    height: 50px;
+    width: auto;
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.header-nav a {
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color var(--transition-fast);
+}
+
+.header-nav a:hover {
+    color: var(--color-accent);
+}
+
+.header-nav .nav-cta {
+    background: var(--color-accent);
+    color: var(--color-white);
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    transition: all var(--transition-base);
+}
+
+.header-nav .nav-cta:hover {
+    background: #c33f33;
+    transform: scale(1.02);
+}
+
+/* ===================================
    Container
    =================================== */
 
@@ -270,6 +338,42 @@ p {
 
 .btn-submit:hover {
     background-color: var(--color-accent);
+}
+
+/* ===================================
+   Trust Section
+   =================================== */
+
+.trust-section {
+    background: var(--color-bg-alt);
+    padding: var(--spacing-xl) 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.trust-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-lg);
+    text-align: center;
+}
+
+.trust-item {
+    padding: var(--spacing-md);
+}
+
+.trust-number {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--color-accent);
+    margin-bottom: var(--spacing-xs);
+    line-height: 1;
+}
+
+.trust-label {
+    font-size: 0.95rem;
+    color: var(--color-text-light);
+    font-weight: 500;
 }
 
 /* ===================================
@@ -806,6 +910,29 @@ p {
         --spacing-lg: 3rem;
         --spacing-xl: 4rem;
         --spacing-xxl: 5rem;
+    }
+
+    .header-nav {
+        gap: var(--spacing-sm);
+    }
+
+    .header-nav a:not(.nav-cta) {
+        display: none;
+    }
+
+    .header-nav .nav-cta {
+        display: inline-block;
+        font-size: 0.875rem;
+        padding: 0.625rem 1.25rem;
+    }
+
+    .header-logo img {
+        height: 40px;
+    }
+
+    .trust-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
     }
 
     .hero {
