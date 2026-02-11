@@ -60,24 +60,50 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Form Handling
 // ===================================
 
+// WICHTIG: Ersetze diese URL mit deiner Google Apps Script Web-App URL
+const GOOGLE_SCRIPT_URL = 'DEINE_GOOGLE_SCRIPT_URL_HIER_EINFÜGEN';
+
 const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         // Get form data
         const formData = new FormData(contactForm);
         const data = Object.fromEntries(formData.entries());
 
-        // Log form data (replace with actual API call)
-        console.log('Form submitted:', data);
+        // Show loading state
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.textContent;
+        submitButton.textContent = 'Wird gesendet...';
+        submitButton.disabled = true;
 
-        // Show success message (you can customize this)
-        showSuccessMessage();
+        try {
+            // Send data to Google Apps Script
+            const response = await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Important for Google Apps Script
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
 
-        // Reset form
-        contactForm.reset();
+            // Show success message
+            showSuccessMessage();
+
+            // Reset form
+            contactForm.reset();
+
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            showErrorMessage();
+        } finally {
+            // Reset button state
+            submitButton.textContent = originalButtonText;
+            submitButton.disabled = false;
+        }
     });
 }
 
@@ -99,12 +125,12 @@ function showSuccessMessage() {
             text-align: center;
             animation: fadeInScale 0.3s ease;
         ">
-            <h3 style="color: #0A2540; margin-bottom: 1rem;">Vielen Dank!</h3>
-            <p style="color: #666666; margin-bottom: 1.5rem;">
+            <h3 style="color: #2C2C2C; margin-bottom: 1rem;">Vielen Dank!</h3>
+            <p style="color: #6B6B6B; margin-bottom: 1.5rem;">
                 Wir haben dein Profil erhalten und melden uns, sobald ein passendes Projekt entsteht.
             </p>
             <button onclick="this.parentElement.parentElement.remove()" style="
-                background: #E07A5F;
+                background: #D94A3D;
                 color: white;
                 border: none;
                 padding: 0.75rem 2rem;
@@ -145,6 +171,53 @@ function showSuccessMessage() {
         `;
         document.head.appendChild(style);
     }
+}
+
+function showErrorMessage() {
+    // Create error message element
+    const errorMessage = document.createElement('div');
+    errorMessage.className = 'error-message';
+    errorMessage.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem 3rem;
+            border-radius: 4px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            z-index: 1000;
+            text-align: center;
+            animation: fadeInScale 0.3s ease;
+        ">
+            <h3 style="color: #D94A3D; margin-bottom: 1rem;">Fehler beim Senden</h3>
+            <p style="color: #6B6B6B; margin-bottom: 1.5rem;">
+                Es gab einen Fehler beim Senden deines Profils. Bitte versuche es erneut oder kontaktiere uns direkt per E-Mail.
+            </p>
+            <button onclick="this.parentElement.parentElement.remove()" style="
+                background: #2C2C2C;
+                color: white;
+                border: none;
+                padding: 0.75rem 2rem;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 1rem;
+                font-weight: 500;
+            ">Schließen</button>
+        </div>
+        <div style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        " onclick="this.parentElement.remove()"></div>
+    `;
+
+    document.body.appendChild(errorMessage);
 }
 
 // ===================================
