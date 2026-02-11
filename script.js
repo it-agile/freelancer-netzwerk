@@ -71,7 +71,25 @@ if (contactForm) {
 
         // Get form data
         const formData = new FormData(contactForm);
-        const data = Object.fromEntries(formData.entries());
+        const data = {};
+
+        // Handle regular fields
+        for (let [key, value] of formData.entries()) {
+            if (key !== 'roles') {
+                data[key] = value;
+            }
+        }
+
+        // Handle multiple checkboxes for roles
+        const selectedRoles = formData.getAll('roles');
+
+        // Validate that at least one role is selected
+        if (selectedRoles.length === 0) {
+            alert('Bitte wähle mindestens einen Schwerpunkt / eine Rolle aus.');
+            return;
+        }
+
+        data.role = selectedRoles.join(', ');
 
         // Show loading state
         const submitButton = contactForm.querySelector('button[type="submit"]');
@@ -270,14 +288,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     roleTags.forEach(tag => {
         tag.addEventListener('click', () => {
-            // Scroll to form and pre-select the role if possible
-            const roleSelect = document.getElementById('role');
+            // Scroll to form and pre-check the role checkbox
             const roleText = tag.textContent.trim().toLowerCase();
 
-            // Map role tags to select options
+            // Map role tags to checkbox values
             const roleMap = {
                 'agile coaches': 'agile-coach',
                 'scrum master': 'scrum-master',
+                'scrum master (junior bis senior)': 'scrum-master',
                 'product owner': 'product-owner',
                 'change- und transformationsbegleiter:innen': 'change-transformation',
                 'okr coaches': 'okr-coach',
@@ -285,8 +303,11 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             const roleValue = roleMap[roleText];
-            if (roleValue && roleSelect) {
-                roleSelect.value = roleValue;
+            if (roleValue) {
+                const checkbox = document.querySelector(`input[name="roles"][value="${roleValue}"]`);
+                if (checkbox) {
+                    checkbox.checked = true;
+                }
             }
 
             // Scroll to form

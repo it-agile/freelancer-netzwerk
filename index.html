@@ -333,20 +333,40 @@
                             <input type="email" id="email" name="email" required>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="role">Schwerpunkt / Rolle *</label>
-                            <select id="role" name="role" required>
-                                <option value="">Bitte auswählen</option>
-                                <option value="agile-coach">Agile Coach</option>
-                                <option value="scrum-master">Scrum Master</option>
-                                <option value="product-owner">Product Owner</option>
-                                <option value="change-transformation">Change- / Transformationsbegleiter:in</option>
-                                <option value="okr-coach">OKR Coach</option>
-                                <option value="org-entwicklung">Organisationsentwickler:in</option>
-                                <option value="andere">Andere</option>
-                            </select>
+                    <div class="form-group form-group-full">
+                        <label>Schwerpunkt / Rolle * (Mehrfachauswahl möglich)</label>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="roles" value="agile-coach">
+                                <span>Agile Coach</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="roles" value="scrum-master">
+                                <span>Scrum Master</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="roles" value="product-owner">
+                                <span>Product Owner</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="roles" value="change-transformation">
+                                <span>Change- / Transformationsbegleiter:in</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="roles" value="okr-coach">
+                                <span>OKR Coach</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="roles" value="org-entwicklung">
+                                <span>Organisationsentwickler:in</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="roles" value="andere">
+                                <span>Andere</span>
+                            </label>
                         </div>
+                    </div>
+                    <div class="form-row">
                         <div class="form-group">
                             <label for="experience">Erfahrungsjahre</label>
                             <input type="text" id="experience" name="experience" placeholder="z.B. 5-8 Jahre">
