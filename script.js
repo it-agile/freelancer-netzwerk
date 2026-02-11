@@ -80,24 +80,35 @@ if (contactForm) {
         submitButton.disabled = true;
 
         try {
+            console.log('Sending data to Google Script:', data);
+
             // Send data to Google Apps Script
             const response = await fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Important for Google Apps Script
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(data),
+                redirect: 'follow'
             });
 
-            // Show success message
-            showSuccessMessage();
+            console.log('Response status:', response.status);
+            console.log('Response:', response);
 
-            // Reset form
-            contactForm.reset();
+            // With mode: 'no-cors', we can't read the response
+            // So we assume success if no error was thrown
+            if (response.ok || response.type === 'opaque') {
+                // Show success message
+                showSuccessMessage();
+                // Reset form
+                contactForm.reset();
+            } else {
+                throw new Error('Server returned error status');
+            }
 
         } catch (error) {
             console.error('Error submitting form:', error);
+            console.error('Error details:', error.message);
             showErrorMessage();
         } finally {
             // Reset button state
