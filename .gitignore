@@ -8,3 +8,6 @@
 # Temporary files
 *.log
 *.tmp
+
+*.md
+google-apps-script.js
